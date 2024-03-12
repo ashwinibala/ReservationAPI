@@ -1,6 +1,5 @@
 class Schedule < ApplicationRecord
-  validates :vin_id, :vehicle_brand, :vehicle_name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details,
-  :service_date, :time_slot_id, :purpose_id presence: true
+  validates :service_date, :timeslots_id, :purposes_id, :vehicles_id, presence: true
 
   validate :validate_date_format
 

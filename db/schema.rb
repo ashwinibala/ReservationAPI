@@ -11,15 +11,22 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
+  create_table "DateAvailability", force: :cascade do |t|
+    t.date "service_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clients", force: :cascade do |t|
-    t.string "name"
+    t.string "firstname"
+    t.string "lastname"
     t.string "phone"
     t.string "email"
     t.boolean "contact_concent"
-    t.date "created_date"
-    t.date "updated_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_clients_on_email", unique: true
+    t.index ["phone"], name: "index_clients_on_phone", unique: true
   end
 
   create_table "purposes", force: :cascade do |t|
@@ -29,31 +36,26 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
     t.string "make_year"
     t.string "brand"
     t.date "deleted_date"
-    t.date "created_date"
-    t.date "updated_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "schedules", force: :cascade do |t|
     t.date "service_date"
-    t.date "created_date"
-    t.date "updated_date"
+    t.date "completed_date"
     t.bigint "vehicles_id"
-    t.bigint "time_slots_id"
+    t.bigint "timeslots_id"
     t.bigint "purposes_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["purposes_id"], name: "index_schedules_on_purposes_id"
-    t.index ["time_slots_id"], name: "index_schedules_on_time_slots_id"
+    t.index ["timeslots_id"], name: "index_schedules_on_timeslots_id"
     t.index ["vehicles_id"], name: "index_schedules_on_vehicles_id"
   end
 
-  create_table "time_slots", force: :cascade do |t|
+  create_table "timeslots", force: :cascade do |t|
     t.string "starttime"
     t.string "endtime"
-    t.date "created_date"
-    t.date "updated_date"
     t.date "deleted_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -68,8 +70,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
     t.string "insurance_details"
     t.date "purchased_date"
     t.date "warrenty_date"
-    t.date "created_date"
-    t.date "updated_date"
     t.bigint "clients_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
   end
 
   add_foreign_key "schedules", "purposes", column: "purposes_id"
-  add_foreign_key "schedules", "time_slots", column: "time_slots_id"
+  add_foreign_key "schedules", "timeslots", column: "timeslots_id"
   add_foreign_key "schedules", "vehicles", column: "vehicles_id"
   add_foreign_key "vehicles", "clients", column: "clients_id"
 end

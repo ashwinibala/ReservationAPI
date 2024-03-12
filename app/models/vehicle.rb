@@ -1,5 +1,6 @@
-class Vehicles < ApplicationRecord
+class Vehicle < ApplicationRecord
 
+  validates :vin, :brand, :name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details, :clients_id, presence: true
   validates :make_year, format: { with: /\A\d{4}\z/, message: "Validation Error : Make Year must be a valid four-digit year" }
 
   validate :validate_date_format
@@ -15,7 +16,7 @@ class Vehicles < ApplicationRecord
 
   private
   def validate_date_format
-    [:purchased_date, :warranty_date].each do |attr|
+    [:purchased_date, :warrenty_date].each do |attr|
       unless send(attr).is_a?(Date)
         errors.add(attr, "must be a valid date")
       end

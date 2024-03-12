@@ -1,2 +1,2 @@
-class TimeSlots < ApplicationRecord
+class Timeslots < ApplicationRecord
 end

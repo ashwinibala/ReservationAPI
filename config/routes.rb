@@ -13,6 +13,5 @@ Rails.application.routes.draw do
   # root "schedules#index"
   # get "/reservation", to: "schedules#index"
 
-
   resources :schedules, only: [:create, :index]
 end
