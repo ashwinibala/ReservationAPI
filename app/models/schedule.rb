@@ -1,5 +1,5 @@
 class Schedule < ApplicationRecord
-  validates :service_date, :timeslots_id, :purposes_id, :vehicles_id, presence: true
+  validates :service_date, :timeslot_id, :purpose_id, :vehicle_id, presence: true
 
   validate :validate_date_format
 

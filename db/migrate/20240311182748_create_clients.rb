@@ -35,16 +35,16 @@ class CreateClients < ActiveRecord::Migration[7.1]
       t.string :insurance_details # this can be either a json or for scalability and normalization a separate table can be used
       t.date :purchased_date
       t.date :warrenty_date
-      t.references :clients, foreign_key: true
+      t.references :client, foreign_key: { to_table: :clients }
       t.timestamps
     end
 
     create_table :schedules do |t| # the service schedule is stored in this table
       t.date :service_date
       t.date :completed_date
-      t.references :vehicles, foreign_key: true
-      t.references :timeslots, foreign_key: true
-      t.references :purposes, foreign_key: true
+      t.references :vehicle, foreign_key: { to_table: :vehicles }
+      t.references :timeslot, foreign_key: { to_table: :timeslots }
+      t.references :purpose, foreign_key: { to_table: :purposes }
       t.timestamps
     end
 
@@ -58,6 +58,8 @@ class CreateClients < ActiveRecord::Migration[7.1]
      # Add uniqueness constraints
      add_index :clients, :phone, unique: true
      add_index :clients, :email, unique: true
+     add_index :vehicles, :vin, unique: true
+     add_index :vehicles, :licence_number, unique: true
 
   end
 end

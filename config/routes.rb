@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
-  # get 'schedules/create'
-  # get 'schedules/index'
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
+  # mount SwaggerUiRails::Engine, at: '/swagger'
+  # mount Swagger::Docs::Config, at: '/swagger'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-
-  # root "schedules#index"
-  # get "/reservation", to: "schedules#index"
-
+  # Routes for the SchedulesController
   resources :schedules, only: [:create, :index]
+
+  # Routes for the ClientsController
+  resources :clients, only: [:index]
+
+  # Routes for the VehiclesController
+  resources :vehicles, only: [:index]
+
 end

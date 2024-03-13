@@ -1,0 +1,114 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/clients":
+    get:
+      summary: list all clients
+      description: Get a list of all clients
+      tags:
+      - Clients
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: phone
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+  "/schedules":
+    get:
+      summary: list schedules
+      description: Get a list of schedules
+      tags:
+      - Schedules
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create schedule
+      description: Create a new schedule
+      tags:
+      - Schedules
+      parameters: []
+      responses:
+        '201':
+          description: successful
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_firstname:
+                  type: string
+                client_lastname:
+                  type: string
+                client_phone:
+                  type: string
+                client_email:
+                  type: string
+                contact_concent:
+                  type: boolean
+                vin:
+                  type: string
+                vehicle_brand:
+                  type: string
+                vehicle_name:
+                  type: string
+                licence_number:
+                  type: string
+                make_year:
+                  type: string
+                purchased_date:
+                  type: string
+                warrenty_date:
+                  type: string
+                insurance_details:
+                  type: string
+                service_date:
+                  type: string
+                timeslot_id:
+                  type: string
+                purpose_id:
+                  type: string
+              required:
+              - client_firstname
+              - client_lastname
+              - client_phone
+              - client_email
+              - vin
+              - service_date
+              - timeslot_id
+              - purpose_id
+  "/vehicles":
+    get:
+      summary: list all vehicles
+      description: Get a list of all vehicles
+      tags:
+      - Vehicles
+      parameters:
+      - name: licence_number
+        in: query
+        schema:
+          type: string
+      - name: vin
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: 127.0.0.1:3000/

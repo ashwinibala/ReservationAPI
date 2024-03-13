@@ -1,6 +1,8 @@
 class Vehicle < ApplicationRecord
 
-  validates :vin, :brand, :name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details, :clients_id, presence: true
+  has_many :schedules, dependent: :destroy
+
+  validates :vin, :brand, :name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details, :client_id, presence: true
   validates :make_year, format: { with: /\A\d{4}\z/, message: "Validation Error : Make Year must be a valid four-digit year" }
 
   validate :validate_date_format

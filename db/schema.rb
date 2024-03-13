@@ -43,14 +43,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
   create_table "schedules", force: :cascade do |t|
     t.date "service_date"
     t.date "completed_date"
-    t.bigint "vehicles_id"
-    t.bigint "timeslots_id"
-    t.bigint "purposes_id"
+    t.bigint "vehicle_id"
+    t.bigint "timeslot_id"
+    t.bigint "purpose_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["purposes_id"], name: "index_schedules_on_purposes_id"
-    t.index ["timeslots_id"], name: "index_schedules_on_timeslots_id"
-    t.index ["vehicles_id"], name: "index_schedules_on_vehicles_id"
+    t.index ["purpose_id"], name: "index_schedules_on_purpose_id"
+    t.index ["timeslot_id"], name: "index_schedules_on_timeslot_id"
+    t.index ["vehicle_id"], name: "index_schedules_on_vehicle_id"
   end
 
   create_table "timeslots", force: :cascade do |t|
@@ -70,14 +70,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
     t.string "insurance_details"
     t.date "purchased_date"
     t.date "warrenty_date"
-    t.bigint "clients_id"
+    t.bigint "client_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["clients_id"], name: "index_vehicles_on_clients_id"
+    t.index ["client_id"], name: "index_vehicles_on_client_id"
+    t.index ["licence_number"], name: "index_vehicles_on_licence_number", unique: true
+    t.index ["vin"], name: "index_vehicles_on_vin", unique: true
   end
 
-  add_foreign_key "schedules", "purposes", column: "purposes_id"
-  add_foreign_key "schedules", "timeslots", column: "timeslots_id"
-  add_foreign_key "schedules", "vehicles", column: "vehicles_id"
-  add_foreign_key "vehicles", "clients", column: "clients_id"
+  add_foreign_key "schedules", "purposes"
+  add_foreign_key "schedules", "timeslots"
+  add_foreign_key "schedules", "vehicles"
+  add_foreign_key "vehicles", "clients"
 end

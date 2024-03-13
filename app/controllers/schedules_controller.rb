@@ -1,12 +1,13 @@
 class SchedulesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  def index
+    @schedules = Schedule.all
+    render json: @schedules.as_json
+  end
   def create
     # Parse incoming parameters
     parsed_params = parse_schedule_params(params)
-
-    p parsed_params
-    p parsed_params[:client_params][:phone]
 
     # Create client
     # Check if client with the same phone number or email already exists
@@ -29,16 +30,17 @@ class SchedulesController < ApplicationController
       vehicle = existing_vehicle
     else
       # Vehicle does not exist, create new vehicle
-      vehicle = Vehicle.create(parsed_params[:vehicle_params].merge(clients_id: client.id))
+      vehicle = Vehicle.create(parsed_params[:vehicle_params].merge(client_id: client.id))
     end
 
     # Create schedule
-    existing_schedule = Schedule.where("vehicles_id = ? AND completed_date IS NULL AND service_date > ?", vehicle.id, Date.today).first
+    existing_schedule = Schedule.where("vehicle_id = ? AND completed_date IS NULL AND service_date > ?", vehicle.id, Date.today).first
+
     if existing_schedule
       # Schedule already exists
       render json: { message: "Schedule is already available for the vehicle" }, status: :unprocessable_entity
     else
-      schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicles_id: vehicle.id))
+      schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicle_id: vehicle.id))
 
       if schedule.persisted?
         render json: { message: "Schedule created successfully" }, status: :created
@@ -60,7 +62,7 @@ class SchedulesController < ApplicationController
     vehicle_params = params.permit(:vin, :vehicle_brand, :vehicle_name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details)
 
     # Permit and extract the required parameters for creating a schedule
-    schedule_params = params.require(:schedule).permit(:service_date, :timeslots_id, :purposes_id)
+    schedule_params = params.require(:schedule).permit(:service_date, :timeslot_id, :purpose_id)
 
     client_params[:firstname] = client_params.delete(:client_firstname)
     client_params[:lastname] = client_params.delete(:client_lastname)
@@ -82,3 +84,8 @@ class SchedulesController < ApplicationController
     { client_params: client_params, vehicle_params: vehicle_params, schedule_params: schedule_params }
   end
 end
+
+
+# Fix date availability and schedule
+# get apis and seeds
+# test cases

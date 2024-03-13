@@ -1,5 +1,7 @@
 class Client < ApplicationRecord
 
+  has_many :vehicles, dependent: :destroy
+
   validates :firstname, :lastname, :phone, :email, :contact_concent, presence: true
 
   validates :firstname, :lastname, format: { with: /\A[a-zA-Z]+\z/, message: "Validation error : Name must have alphabets only" }
