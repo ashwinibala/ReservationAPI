@@ -48,14 +48,13 @@ RSpec.describe 'Schedule API', type: :request do
           service_date: { type: :string },
           timeslot_id: { type: :string },
           purpose: { type: :string }
-        },
-        required: %w[client_firstname client_lastname client_phone client_email vin service_date timeslot_id purpose]
+        }
       }
 
       response '200', 'successful' do
         schema type: :object,
           properties: {
-            id: { type: :integer },
+            message: 'Schedule created successfully',
             # Add other properties here as needed
           },
           required: %w[id]

@@ -32,23 +32,23 @@ class SchedulesController < ApplicationController
       vehicle = existing_vehicle
     else
       # Vehicle does not exist, create new vehicle
+      byebug
       vehicle = Vehicle.create(parsed_params[:vehicle_params].merge(client_id: client.id))
+      p vehicle
     end
 
     # Create schedule
     existing_schedule = Schedule.where("vehicle_id = ? AND completed_date IS NULL AND service_date > ?", vehicle.id, Date.today).first
 
-    p existing_schedule
-
     if existing_schedule
       # Schedule already exists
       render json: { message: "Upcoming Schedule is already available for the vehicle." }, status: :unprocessable_entity
     else
-      dateavailability = Dateavailability.find_by(service_date: parsed_params[:schedule_params][:service_date])
-      p dateavailability
+      dateavailability = Dateavailability.find_by(service_date: parsed_params[:schedule_params][:service_date], timeslot_id: parsed_params[:schedule_params][:timeslot_id])
       if !dateavailability
         Dateavailability.find_or_create_by(service_date: parsed_params[:schedule_params][:service_date], vehicle_count: 1, timeslot_id: parsed_params[:schedule_params][:timeslot_id])
         schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicle_id: vehicle.id))
+        byebug
       elsif dateavailability.vehicle_count < 50
         schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicle_id: vehicle.id))
         dateavailability.vehicle_count += 1
@@ -68,11 +68,12 @@ class SchedulesController < ApplicationController
   def update
     @schedule = Schedule.find(params[:id])
     existing_schedule = Schedule.where("vehicle_id = ? AND completed_date IS NULL AND service_date > ?", @schedule.vehicle_id, Date.today).first
+
     if existing_schedule.service_date.strftime("%Y-%m-%d") == params[:service_date]
       render json: { message: "Schedule exists for the same date" }, status: :unprocessable_entity
       return
     end
-    existing_date_availability = Dateavailability.find_by(service_date: existing_schedule.service_date)
+    existing_date_availability = Dateavailability.find_by(service_date: existing_schedule.service_date, timeslot_id: existing_schedule.timeslot_id)
     new_date_availability = Dateavailability.find_by(service_date: params[:service_date], timeslot_id: params[:timeslot_id])
 
     if existing_schedule
@@ -107,9 +108,11 @@ class SchedulesController < ApplicationController
 
     # Permit and extract the required parameters for creating a client
     client_params = params.permit(:client_firstname, :client_lastname, :client_phone, :client_email, :contact_concent)
+    # client_params = params.require(:schedule).permit(:client_email, :client_firstname, :client_lastname, :client_phone, :contact_concent)
 
     # Permit and extract the required parameters for creating a vehicle
     vehicle_params = params.permit(:vin, :vehicle_brand, :vehicle_name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details)
+    # vehicle_params = params.require(:schedule).permit(:vin, :vehicle_brand, :vehicle_name, :licence_number, :make_year, :purchased_date, :warrenty_date, :insurance_details)
 
     # Permit and extract the required parameters for creating a schedule
     schedule_params = params.require(:schedule).permit(:service_date, :timeslot_id, :purpose)
@@ -122,10 +125,14 @@ class SchedulesController < ApplicationController
     vehicle_params[:name] = vehicle_params.delete(:vehicle_name)
     vehicle_params[:brand] = vehicle_params.delete(:vehicle_brand)
 
+
     # Convert date and time strings to appropriate data types
     vehicle_params[:purchased_date] = Date.parse(vehicle_params[:purchased_date]) rescue nil
     vehicle_params[:warrenty_date] = Date.parse(vehicle_params[:warrenty_date]) rescue nil
     schedule_params[:service_date] = Date.parse(schedule_params[:service_date]) rescue nil
+
+    client_params.permit!
+    vehicle_params.permit!
 
     p client_params
     p vehicle_params

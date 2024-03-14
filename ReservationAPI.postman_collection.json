@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "62dacb81-cd94-471c-aac7-71ed7396ca53",
+		"name": "ReservationAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28281814"
+	},
+	"item": [
+		{
+			"name": "CreateSchedules",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"client_firstname\": \"Johnson\",\r\n  \"client_lastname\": \"Doe\",\r\n  \"client_phone\": \"1234567890\",\r\n  \"client_email\": \"john12@example.com\",\r\n  \"contact_concent\": true,\r\n  \"vin\": \"ABC123XYZ45678979\",\r\n  \"vehicle_brand\": \"Tesla\",\r\n  \"vehicle_name\": \"X\",\r\n  \"licence_number\": \"ABC115\",\r\n  \"make_year\": \"2020\",\r\n  \"purchased_date\": \"2022-01-01\",\r\n  \"warrenty_date\": \"2025-01-01\",\r\n  \"insurance_details\": \"Some insurance details\",\r\n  \"service_date\": \"2024-03-15\",\r\n  \"timeslot_id\": 1,\r\n  \"purpose\": \"Fuel Filter recall\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/schedules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"schedules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateSchedule",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"service_date\": \"2024-03-15\",\r\n  \"timeslot_id\": 1,\r\n  \"purpose\": \"Fuel Filter recall\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/schedules/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"schedules",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllSchedules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/schedules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"schedules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllVehicles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/vehicles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetVehicleByVIN",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/vehicles?vin=ABC123XYZ45678965",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"vehicles"
+					],
+					"query": [
+						{
+							"key": "vin",
+							"value": "ABC123XYZ45678965"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetVehicleBylicence_number",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/vehicles?licence_number=ABC123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"vehicles"
+					],
+					"query": [
+						{
+							"key": "licence_number",
+							"value": "ABC123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllClientsWithVehicleAndSchedules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClientByEmail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clients?email=john@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "john@example.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClientByPhoneNumber",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/clients?phone=1234567892",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clients"
+					],
+					"query": [
+						{
+							"key": "phone",
+							"value": "1234567892"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
