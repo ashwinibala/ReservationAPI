@@ -9,7 +9,9 @@ application up and running.
 * Commands to bring up DB
 * rails db:create
 * rails db:migrate
+* RAILS_ENV=test bin/rails db:migrate
 * rails db:seed
+* RAILS_ENV=test bin/rails db:seed
 
 * To bring up rails server
 * rails s / rails server
@@ -36,5 +38,5 @@ application up and running.
 *  "insurance_details": "Some insurance details",
 *  "service_date": "2024-03-15",
 *  "timeslots_id": 1,
-*  "purposes_id": 1
+*  "purpose": "Air filter recall"
 *}

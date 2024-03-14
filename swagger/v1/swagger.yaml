@@ -7,18 +7,25 @@ paths:
   "/clients":
     get:
       summary: list all clients
-      description: Get a list of all clients
+      description: Get a list of all clients / with phone / with email
       tags:
       - Clients
       parameters:
+      - name: phone
+        in: query
       - name: email
         in: query
         schema:
           type: string
-      - name: phone
-        in: query
-        schema:
-          type: string
+      responses:
+        '200':
+          description: successful
+  "/dateavailabilities":
+    get:
+      summary: list dateavailabilities
+      description: Get all available dates to schedule
+      tags:
+      - Date Availability
       responses:
         '200':
           description: successful
@@ -33,15 +40,13 @@ paths:
           description: successful
     post:
       summary: create schedule
-      description: Create a new schedule
+      description: Create schedules
       tags:
       - Schedules
       parameters: []
       responses:
-        '201':
+        '200':
           description: successful
-        '422':
-          description: unprocessable entity
       requestBody:
         content:
           application/json:
@@ -78,7 +83,7 @@ paths:
                   type: string
                 timeslot_id:
                   type: string
-                purpose_id:
+                purpose:
                   type: string
               required:
               - client_firstname
@@ -89,17 +94,31 @@ paths:
               - service_date
               - timeslot_id
               - purpose_id
+  "/schedules/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    put:
+      summary: update schedule
+      description: Update schedules
+      tags:
+      - Schedules
+      responses:
+        '200':
+          description: successful
   "/vehicles":
     get:
       summary: list all vehicles
-      description: Get a list of all vehicles
+      description: Get a list of all vehicles / with licence_number / with vin
       tags:
       - Vehicles
       parameters:
       - name: licence_number
         in: query
-        schema:
-          type: string
       - name: vin
         in: query
         schema:
@@ -108,7 +127,7 @@ paths:
         '200':
           description: successful
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: 127.0.0.1:3000/

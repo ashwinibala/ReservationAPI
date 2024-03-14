@@ -1,22 +1,15 @@
 # Seed initial time slots
-10.times do |n|
-  start_time = Time.parse("08:00") + n.hours
-  end_time = Time.parse("09:00") + n.hours
-
+  start_time1 = Time.parse("09:00")
+  end_time1 = Time.parse("12:00")
+  start_time2 = Time.parse("13:00")
+  end_time2 = Time.parse("17:00")
   Timeslot.create!(
-    starttime: start_time.strftime("%H:%M"),
-    endtime: end_time.strftime("%H:%M"),
+    starttime: start_time1.strftime("%H:%M"),
+    endtime: end_time1.strftime("%H:%M"),
     deleted_date: nil
   )
-end
-# Seed initial purposes
-10.times do |n|
-  Purpose.create!(
-    name: "Purpose #{n+1}",
-    description: "Description for purpose #{n+1}",
-    criticality: "Criticality #{n+1}",
-    make_year: "Year #{n+1}",
-    brand: "Brand #{n+1}",
+  Timeslot.create!(
+    starttime: start_time2.strftime("%H:%M"),
+    endtime: end_time2.strftime("%H:%M"),
     deleted_date: nil
   )
-end

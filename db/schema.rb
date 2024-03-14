@@ -11,12 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
-  create_table "DateAvailability", force: :cascade do |t|
-    t.date "service_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "clients", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
@@ -29,26 +23,23 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
     t.index ["phone"], name: "index_clients_on_phone", unique: true
   end
 
-  create_table "purposes", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.string "criticality"
-    t.string "make_year"
-    t.string "brand"
-    t.date "deleted_date"
+  create_table "dateavailabilities", force: :cascade do |t|
+    t.date "service_date"
+    t.integer "vehicle_count"
+    t.bigint "timeslot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["timeslot_id"], name: "index_dateavailabilities_on_timeslot_id"
   end
 
   create_table "schedules", force: :cascade do |t|
     t.date "service_date"
     t.date "completed_date"
+    t.string "purpose"
     t.bigint "vehicle_id"
     t.bigint "timeslot_id"
-    t.bigint "purpose_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["purpose_id"], name: "index_schedules_on_purpose_id"
     t.index ["timeslot_id"], name: "index_schedules_on_timeslot_id"
     t.index ["vehicle_id"], name: "index_schedules_on_vehicle_id"
   end
@@ -78,7 +69,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_11_182748) do
     t.index ["vin"], name: "index_vehicles_on_vin", unique: true
   end
 
-  add_foreign_key "schedules", "purposes"
+  add_foreign_key "dateavailabilities", "timeslots"
   add_foreign_key "schedules", "timeslots"
   add_foreign_key "schedules", "vehicles"
   add_foreign_key "vehicles", "clients"

@@ -9,12 +9,15 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Routes for the SchedulesController
-  resources :schedules, only: [:create, :index]
+  resources :schedules, only: [:create, :index, :update]
 
   # Routes for the ClientsController
   resources :clients, only: [:index]
 
   # Routes for the VehiclesController
   resources :vehicles, only: [:index]
+
+  # Routes for the DateAvailabilityController
+  resources :dateavailabilities, only: [:index]
 
 end

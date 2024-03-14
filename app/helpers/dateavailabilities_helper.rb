@@ -1,0 +1,2 @@
+module DateavailabilitiesHelper
+end
