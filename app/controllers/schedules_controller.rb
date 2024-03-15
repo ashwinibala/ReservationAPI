@@ -32,7 +32,6 @@ class SchedulesController < ApplicationController
       vehicle = existing_vehicle
     else
       # Vehicle does not exist, create new vehicle
-      byebug
       vehicle = Vehicle.create(parsed_params[:vehicle_params].merge(client_id: client.id))
       p vehicle
     end
@@ -48,7 +47,7 @@ class SchedulesController < ApplicationController
       if !dateavailability
         Dateavailability.find_or_create_by(service_date: parsed_params[:schedule_params][:service_date], vehicle_count: 1, timeslot_id: parsed_params[:schedule_params][:timeslot_id])
         schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicle_id: vehicle.id))
-        byebug
+
       elsif dateavailability.vehicle_count < 50
         schedule = Schedule.create(parsed_params[:schedule_params].merge(vehicle_id: vehicle.id))
         dateavailability.vehicle_count += 1
