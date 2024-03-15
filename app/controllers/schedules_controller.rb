@@ -158,3 +158,20 @@ class SchedulesController < ApplicationController
     render json: { error: exception.message }, status: :internal_server_error
   end
 end
+
+# Test cases to be covered
+
+# New schedule created successfully with new client and vehicle
+# New schedule created successfully with existing client and new vehicle
+# New schedule created successfully with existing client and existing vehicle
+#
+# Schedule not created if there is an upcoming schedule exists (PATCH call for modifying existing schedule)
+# Schedule not created if there is mismatch between client and vehicle
+# Schedule not created if there is no date and time slot availability
+#
+# Schedule updated successfully if the date and timeslot available
+# Schedule updated successfully if there is a purpose change
+#
+# Schedule not updated if the date / timeslot not present
+#
+# Schedule not created or updated if there is validation errors
